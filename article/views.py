@@ -1,8 +1,11 @@
 from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
 from rest_framework.permissions import IsAdminUser
 from users.permissions import IsClient, IsConsultant
+from rest_framework.exceptions import PermissionDenied
+from rest_framework.response import Response
 from .serializers import *
 from .models import *
+from users.models import User
 from rest_framework.permissions import AllowAny
 from agrarie.pagintions import CustomResultsSetPagination
 from django_filters.rest_framework import DjangoFilterBackend
@@ -22,6 +25,16 @@ class VoteViewSet(ModelViewSet):
     def perform_create(self, serializer):
         article = Article.objects.get(id=self.kwargs['pk'], status=True)
         return serializer.save(user=self.request.user, article=article)
+
+    def list(self, request, *args, **kwargs):
+        try:
+            user = User.objects.get(id=request.user.pk)
+            queryset = Vote.objects.filter(article_id=kwargs["pk"], user=user)
+            serializer = VoteSelfSerializer(queryset, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except:
+            raise PermissionDenied
+
 
 
 class ArticleViewSet(ModelViewSet):

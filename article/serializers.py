@@ -21,6 +21,16 @@ class VoteSerializer(serializers.ModelSerializer):
         return vote
 
 
+class VoteSelfSerializer(serializers.ModelSerializer):
+    user = UsersListSerializer(many=False, read_only=True)
+    article = serializers.PrimaryKeyRelatedField(read_only=True)
+
+    class Meta:
+        model = Vote
+        fields = ['id', 'user', 'vote', 'article', 'pub_date']
+        read_only_fields = ['pub_date', 'vote']
+
+
 class ArticleAdditionSerializer(serializers.ModelSerializer):
     class Meta:
         model = ArticleAddition
@@ -35,7 +45,8 @@ class ArticleListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Article
-        fields = ['id', 'user', 'category', 'subcategory', 'types', 'subtypes', 'title', 'text', 'additions', 'pub_date', 'status',
+        fields = ['id', 'user', 'category', 'subcategory', 'types', 'subtypes', 'title', 'text', 'additions',
+                  'pub_date', 'status',
                   'votes']
         read_only_fields = ['user', 'pub_date', 'votes', 'status', 'additions']
 

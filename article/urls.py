@@ -12,6 +12,7 @@ urlpatterns = [
     path('new-articles/', NewArticleViewSet.as_view({'get': 'list'})),
 
     path('votes/create/<int:pk>', VoteViewSet.as_view({'post': 'create'})),
+    path('votes/self/<int:pk>/', VoteViewSet.as_view({'get': 'list'})),
     path('votes/edit/<int:pk>', VoteViewSet.as_view({'get': 'retrieve', 'put': 'update'})),
     path('votes/delete/<int:pk>', VoteViewSet.as_view({'get': 'retrieve', 'delete': 'destroy'})),
     path('votes/<int:pk>', VoteViewSet.as_view({'get': 'retrieve'})),
