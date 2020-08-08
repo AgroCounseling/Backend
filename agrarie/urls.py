@@ -5,7 +5,7 @@ from django.conf import settings
 from .yasg import urlpatterns as doc_urls
 from django.conf.urls.i18n import i18n_patterns
 from agrarie.search import GlobalSearchAPIView
-from rest_framework_social_oauth2 import urls
+
 urlpatterns = i18n_patterns(
                   path('admin/', admin.site.urls),
                   path('api/', include('users.urls')),
