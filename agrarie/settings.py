@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'article.apps.ArticleConfig',
     'informations.apps.InformationsConfig',
     'categories.apps.CategoriesConfig',
+    'rooms.apps.RoomsConfig',
     'drf_multiple_model',
     'oauth2_provider',
     'social_django',
