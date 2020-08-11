@@ -15,8 +15,20 @@ class Slider(models.Model):
 
 
 class ContactInfo(models.Model):
-    phone = models.CharField(max_length=20, verbose_name=_('Номер телефона'))
     address = models.CharField(max_length=250, verbose_name=_('Адрес'))
+
+    class Meta:
+        verbose_name = _('Информация')
+        verbose_name_plural = _('Информации')
+
+    def __str__(self):
+        return '{}'.format(self.address)
+
+
+class PhonesInfo(models.Model):
+    phone = models.CharField(max_length=20, verbose_name=_('Номер телефона'))
+    address = models.ForeignKey(ContactInfo, on_delete=models.SET_NULL, null=True, verbose_name=_('Адрес'),
+                              related_name='phones')
 
     class Meta:
         verbose_name = _('Контактная информация')

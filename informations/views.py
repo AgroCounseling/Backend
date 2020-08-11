@@ -20,3 +20,4 @@ class ContactInfoViewSet(ReadOnlyModelViewSet):
     queryset = ContactInfo.objects.all()
     serializer_class = ContactInfoSerializer
     pagination_class = CustomResultsSetPagination
+

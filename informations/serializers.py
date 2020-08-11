@@ -9,8 +9,16 @@ class SliderSerializer(serializers.ModelSerializer):
         read_only_fields = ['pub_date']
 
 
+class PhonesInfo(serializers.ModelSerializer):
+    class Meta:
+        model = PhonesInfo
+        fields = ['phone', 'address']
+
+
 class ContactInfoSerializer(serializers.ModelSerializer):
+    phones = PhonesInfo(many=True, read_only=True)
+
     class Meta:
         model = ContactInfo
-        fields = ['phone', 'address']
-        read_only_fields = ['phone', 'address']
+        fields = ['address', 'phones']
+        read_only_fields = ['phones', 'address']
