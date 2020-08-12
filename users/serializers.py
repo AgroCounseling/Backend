@@ -132,9 +132,12 @@ class ConsultantDetailSerializer(serializers.ModelSerializer):
 
 
 class ConsultantSearchListSerializer(serializers.ModelSerializer):
+    user = UsersListSerializer(many=False)
+    specialty = CategoryConsultantListSerializer(many=True, read_only=True)
+
     class Meta:
         model = Consultant
-        fields = ('id', 'user', 'title', 'description')
+        fields = ('id', 'user', 'title', 'description', 'specialty')
 
 
 class RegistrationClientSerializer(serializers.ModelSerializer):
