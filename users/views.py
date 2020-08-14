@@ -63,11 +63,6 @@ class ConsultantViewSet(ReadOnlyModelViewSet):
             count += 1
         return consultants
 
-    def retrieve(self, request, *args, **kwargs):
-        queryset = get_object_or_404(Consultant, id=kwargs['pk'])
-        serializer = ConsultantDetailSerializer(queryset)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
 
 class ConsultantListViewSet(ReadOnlyModelViewSet):
     permission_classes = [AllowAny]
@@ -79,6 +74,13 @@ class ConsultantListViewSet(ReadOnlyModelViewSet):
             middle_star=models.Sum(models.F('ratings__star__value')) / models.Count(
                 models.F('ratings')),
         )
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return ConsultantListSerializer
+        elif self.action == 'retrieve':
+            return ConsultantDetailSerializer
+
 
 class ReviewsViewSet(ModelViewSet):
     # permission_classes = [IsClient | IsAdminUser]

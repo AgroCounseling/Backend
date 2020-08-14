@@ -125,10 +125,11 @@ class ConsultantDetailSerializer(serializers.ModelSerializer):
     specialty = CategoryConsultantListSerializer(many=True, read_only=True)
     reviews = ReviewsDetailSerializer(many=True, read_only=True)
     ratings = RatingListSerializer(many=True, read_only=True)
+    middle_star = serializers.FloatField()
 
     class Meta:
         model = Consultant
-        fields = ('id', 'user', 'specialty', 'title', 'description', 'reviews', 'ratings')
+        fields = ('id', 'user', 'specialty', 'title', 'description', 'middle_star', 'reviews', 'ratings',)
 
 
 class ConsultantSearchListSerializer(serializers.ModelSerializer):
