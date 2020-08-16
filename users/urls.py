@@ -21,7 +21,6 @@ urlpatterns = [
 
     path('reviews/', ReviewsViewSet.as_view({'get': 'list'})),
     path('reviews/<int:pk>/', ReviewsViewSet.as_view({'get': 'retrieve'})),
-    path('reviews/edit/<int:pk>/', ReviewsViewSet.as_view({'get': 'retrieve', 'put': 'update'})),
     path('reviews/delete/<int:pk>/', ReviewsViewSet.as_view({'get': 'retrieve', 'delete': 'destroy'})),
     path('reviews/create/<int:pk>/', ReviewsViewSet.as_view({'post': 'create'})),
 ]

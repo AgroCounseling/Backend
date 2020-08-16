@@ -9,7 +9,7 @@ class ChatMessageSerializer(serializers.ModelSerializer):
         fields = ['id', 'thread', 'user', 'message', 'timestamp']
 
 
-class ThreadListSerializer(serializers.ModelSerializer):
+class ThreadDetailSerializer(serializers.ModelSerializer):
     messages = ChatMessageSerializer(many=True, read_only=True)
     first = UsersListSerializer(many=False, read_only=True)
     second = UsersListSerializer(many=False, read_only=True)
@@ -18,6 +18,16 @@ class ThreadListSerializer(serializers.ModelSerializer):
         model = Thread
         fields = ['id', 'first', 'second', 'time', 'access', 'timestamp', 'messages']
         read_only_fields = ['first', 'second', 'time', 'timestamp', 'messages']
+
+
+class ThreadListSerializer(serializers.ModelSerializer):
+    first = UsersListSerializer(many=False, read_only=True)
+    second = UsersListSerializer(many=False, read_only=True)
+
+    class Meta:
+        model = Thread
+        fields = ['id', 'first', 'second', 'time', 'access', 'timestamp']
+        read_only_fields = ['first', 'second', 'time', 'timestamp']
 
 
 class ThreadGetUpdateSerializer(serializers.ModelSerializer):

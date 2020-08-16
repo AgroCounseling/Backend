@@ -42,8 +42,15 @@ class ThreadViewSet(ModelViewSet):
     queryset = Thread.objects.all()
     pagination_class = CustomResultsSetPagination
 
+    def list(self, request, *args, **kwargs):
+        queryset = Thread.objects.by_user(self.request.user)
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
     def get_serializer_class(self):
         if self.action == 'retrieve':
+            return ThreadDetailSerializer
+        elif self.action == 'list':
             return ThreadListSerializer
         else:
             return ThreadGetUpdateSerializer
