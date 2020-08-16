@@ -20,7 +20,7 @@ urlpatterns = i18n_patterns(
                   path('api/', include('informations.urls')),
                   path('api/', include('rooms.urls')),
                   path('auth/', include('rest_framework_social_oauth2.urls')),
-                  # path('api-auth/', include('rest_framework.urls')),
+                  path('api-auth/', include('rest_framework.urls')),
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 urlpatterns += doc_urls

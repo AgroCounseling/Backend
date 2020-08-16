@@ -122,26 +122,13 @@ class RatingStart(models.Model):
         ordering = ["-value"]
 
 
-class Rating(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name=_('Пользователь'))
-    consultant = models.ForeignKey(Consultant, on_delete=models.CASCADE, verbose_name=_('Консультант'),
-                                   related_name="ratings")
-    star = models.ForeignKey(RatingStart, on_delete=models.CASCADE, verbose_name=_('Звезда'))
-
-    def __str__(self):
-        return '{}'.format(self.user)
-
-    class Meta:
-        verbose_name = "Рейтинг"
-        verbose_name_plural = "Рейтинги"
-
-
 class Reviews(models.Model):
     name = models.CharField(max_length=100, verbose_name=_('Имя'))
     email = models.EmailField()
     text = models.TextField(max_length=5000, verbose_name=_('Сообщение'))
     consultant = models.ForeignKey(Consultant, on_delete=models.CASCADE, verbose_name=_('Консультант'),
                                    related_name='reviews')
+    star = models.ForeignKey(RatingStart, on_delete=models.CASCADE, verbose_name=_('Звезда'))
 
     def __str__(self):
         return self.name

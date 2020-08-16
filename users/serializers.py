@@ -41,33 +41,6 @@ class RatingStarSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class RatingCreateSerializer(serializers.ModelSerializer):
-    user = UsersListSerializer(many=False, read_only=True)
-
-    class Meta:
-        model = Rating
-        fields = ('id', 'user', 'consultant', 'star',)
-        read_only_fields = ('id', 'user',)
-
-    def create(self, validated_data):
-        rating, _ = Rating.objects.update_or_create(
-            user=validated_data.get('user', None),
-            consultant=validated_data.get('consultant', None),
-            defaults={'star': validated_data.get('star')}
-        )
-        return rating
-
-
-class RatingListSerializer(serializers.ModelSerializer):
-    user = UsersListSerializer(many=False, read_only=True)
-    star = RatingStarSerializer(many=False, read_only=True)
-
-    class Meta:
-        model = Rating
-        fields = ('id', 'user', 'consultant', 'star',)
-        read_only_fields = ('id', 'user',)
-
-
 class ImageConsultantListSerializer(serializers.ModelSerializer):
     class Meta:
         model = ImageConsultant
@@ -111,25 +84,37 @@ class ProfileConsultantSerializer(serializers.ModelSerializer):
 class ReviewsListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reviews
-        fields = ('id', 'consultant', 'text')
+        fields = ('id', 'consultant', 'text', "star")
+        read_only_fields = ('consultant',)
+
+    def create(self, validated_data):
+        review, _ = Reviews.objects.update_or_create(
+            consultant=validated_data.get('consultant', None),
+            defaults={
+                'text': validated_data.get('text'),
+                'star': validated_data.get('star')
+            }
+        )
+        return review
 
 
 class ReviewsDetailSerializer(serializers.ModelSerializer):
+    star = RatingStarSerializer(read_only=True)
+
     class Meta:
         model = Reviews
-        fields = ("id", 'consultant', "name", 'email', "text")
+        fields = ("id", 'consultant', "name", 'email', "text", "star")
 
 
 class ConsultantDetailSerializer(serializers.ModelSerializer):
     user = UsersListSerializer(many=False)
     specialty = CategoryConsultantListSerializer(many=True, read_only=True)
     reviews = ReviewsDetailSerializer(many=True, read_only=True)
-    ratings = RatingListSerializer(many=True, read_only=True)
     middle_star = serializers.FloatField()
 
     class Meta:
         model = Consultant
-        fields = ('id', 'user', 'specialty', 'title', 'description', 'middle_star', 'reviews', 'ratings',)
+        fields = ('id', 'user', 'specialty', 'title', 'description', 'middle_star', 'reviews')
 
 
 class ConsultantSearchListSerializer(serializers.ModelSerializer):

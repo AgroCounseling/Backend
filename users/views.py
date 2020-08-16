@@ -29,20 +29,20 @@ class RegistrationConsultantViewSet(ModelViewSet):
     serializer_class = RegistrationConsultantSerializer
 
 
-class RatingViewSet(ModelViewSet):
-    queryset = Rating.objects.all()
-    # permission_classes = [IsClient | IsAdminUser]
-    permission_classes = [AllowAny]
-    pagination_class = CustomResultsSetPagination
-
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
-
-    def get_serializer_class(self):
-        if self.action == 'create':
-            return RatingCreateSerializer
-        else:
-            return RatingListSerializer
+# class RatingViewSet(ModelViewSet):
+#     queryset = Rating.objects.all()
+#     # permission_classes = [IsClient | IsAdminUser]
+#     permission_classes = [AllowAny]
+#     pagination_class = CustomResultsSetPagination
+#
+#     def perform_create(self, serializer):
+#         serializer.save(user=self.request.user)
+#
+#     def get_serializer_class(self):
+#         if self.action == 'create':
+#             return RatingCreateSerializer
+#         else:
+#             return RatingListSerializer
 
 
 class ConsultantViewSet(ReadOnlyModelViewSet):
@@ -57,8 +57,8 @@ class ConsultantViewSet(ReadOnlyModelViewSet):
         count = 0
         for spec in specialty:
             consultants += Consultant.objects.filter(id=specialty[count].consultant.pk, user__is_active=True).annotate(
-                middle_star=models.Sum(models.F('ratings__star__value')) / models.Count(
-                    models.F('ratings')),
+                middle_star=models.Sum(models.F('reviews__star__value')) / models.Count(
+                    models.F('reviews')),
             )
             count += 1
         return consultants
@@ -71,8 +71,8 @@ class ConsultantListViewSet(ReadOnlyModelViewSet):
 
     def get_queryset(self):
         return Consultant.objects.filter(user__is_active=True).annotate(
-            middle_star=models.Sum(models.F('ratings__star__value')) / models.Count(
-                models.F('ratings')),
+            middle_star=models.Sum(models.F('reviews__star__value')) / models.Count(
+                models.F('reviews')),
         )
 
     def get_serializer_class(self):
@@ -89,8 +89,9 @@ class ReviewsViewSet(ModelViewSet):
     pagination_class = CustomResultsSetPagination
 
     def perform_create(self, serializer):
+        consultant = Consultant.objects.get(id=self.kwargs['pk'])
         user = User.objects.get(id=self.request.user.pk)
-        serializer.save(name='{} {}'.format(user.first_name, user.last_name), email=user.email)
+        serializer.save(name='{} {}'.format(user.first_name, user.last_name), consultant=consultant, email=user.email)
 
     def get_serializer_class(self):
         if self.action == 'create' or self.action == 'destroy' or self.action == 'update':
