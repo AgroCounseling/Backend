@@ -10,6 +10,7 @@ urlpatterns = [
 
     path('popular-articles/', PopularArticleViewSet.as_view({'get': 'list'})),
     path('new-articles/', NewArticleViewSet.as_view({'get': 'list'})),
+    path('own-articles/', OwnArticleViewSet.as_view({'get': 'list'})),
 
     path('votes/create/<int:pk>', VoteViewSet.as_view({'post': 'create'})),
     path('votes/self/<int:pk>/', VoteViewSet.as_view({'get': 'list'})),

@@ -40,7 +40,6 @@ class VoteViewSet(ModelViewSet):
 class ArticleViewSet(ModelViewSet):
     # permission_classes = [IsConsultant | IsAdminUser]
     permission_classes = [AllowAny]
-    queryset = Article.objects.all()
     pagination_class = CustomResultsSetPagination
     filter_backends = [filters.SearchFilter, DjangoFilterBackend]
     filterset_fields = ['category', 'subcategory', 'types', 'subtypes']
@@ -85,4 +84,18 @@ class NewArticleViewSet(ReadOnlyModelViewSet):
 
     def get_queryset(self):
         queryset = Article.objects.order_by('-pub_date').filter(status=True)
+        return queryset
+
+
+class OwnArticleViewSet(ReadOnlyModelViewSet):
+    # permission_classes = [IsConsultant | IsAdminUser]
+    permission_classes = [AllowAny]
+    serializer_class = ArticleListSerializer
+    pagination_class = CustomResultsSetPagination
+    filter_backends = [filters.SearchFilter, DjangoFilterBackend]
+    filterset_fields = ['category', 'subcategory', 'types', 'subtypes']
+    search_fields = ['title']
+
+    def get_queryset(self):
+        queryset = Article.objects.order_by('-pub_date').filter(user=self.request.user)
         return queryset
