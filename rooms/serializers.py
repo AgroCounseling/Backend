@@ -35,7 +35,7 @@ class ThreadGetUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Thread
         fields = ['id', 'first', 'second', 'time', 'access', 'timestamp']
-        read_only_fields = ['first', 'second', 'time', 'timestamp']
+        read_only_fields = ['first', 'second', 'timestamp']
 
 
 class MessageCreateSerializer(serializers.Serializer):
