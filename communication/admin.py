@@ -8,7 +8,7 @@ admin.site.index_title = "Агро Консультирование"
 
 class ChatMessageInline(admin.TabularInline):
     model = ChatMessage
-    fields = ('thread', 'user', 'message', 'timestamp')
+    fields = ('thread', 'user', 'message', 'image', 'video', 'audio', 'timestamp')
     readonly_fields = ['timestamp']
 
     def get_extra(self, request, obj=None, **kwargs):
@@ -20,6 +20,7 @@ class ChatMessageInline(admin.TabularInline):
 class ThreadAdmin(admin.ModelAdmin):
     list_display = ['first', 'second', 'time', 'access', 'timestamp']
     list_filter = ['first', 'second', 'time', 'access', ]
+    fields = ['first', 'second', 'time', 'access', 'timestamp']
     raw_id_fields = ['first', 'second']
     readonly_fields = ['timestamp']
     ordering = ['-timestamp']

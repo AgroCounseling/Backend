@@ -6,7 +6,7 @@ from users.serializers import UsersListSerializer
 class ChatMessageSerializer(serializers.ModelSerializer):
     class Meta:
         model = ChatMessage
-        fields = ['id', 'thread', 'user', 'message', 'timestamp']
+        fields = ['id', 'thread', 'user', 'message', 'timestamp', 'status']
 
 
 class ThreadDetailSerializer(serializers.ModelSerializer):
@@ -23,22 +23,27 @@ class ThreadDetailSerializer(serializers.ModelSerializer):
 class ThreadListSerializer(serializers.ModelSerializer):
     first = UsersListSerializer(many=False, read_only=True)
     second = UsersListSerializer(many=False, read_only=True)
+    new_messages = serializers.IntegerField(source='unreaded', read_only=True)
 
     class Meta:
         model = Thread
-        fields = ['id', 'first', 'second', 'time', 'access', 'timestamp']
-        read_only_fields = ['first', 'second', 'time', 'timestamp']
+        fields = ['id', 'first', 'second', 'time', 'access', 'timestamp', 'new_messages']
+        read_only_fields = ['first', 'second', 'time', 'timestamp', 'new_messages']
 
 
 class ThreadGetUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Thread
         fields = ['id', 'first', 'second', 'time', 'access', 'timestamp']
-        read_only_fields = ['first', 'second', 'time', 'timestamp']
+        read_only_fields = ['first', 'second', 'timestamp']
 
 
 class MessageCreateSerializer(serializers.Serializer):
+    id = serializers.PrimaryKeyRelatedField(read_only=True)
     message = serializers.CharField()
+    audio = serializers.FileField()
+    image = serializers.ImageField()
+    video = serializers.FileField()
 
     def create(self, validated_data):
         return ChatMessage.objects.create(**validated_data)
