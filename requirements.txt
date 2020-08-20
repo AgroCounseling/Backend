@@ -15,7 +15,7 @@ coreschema==0.0.4
 cryptography==2.9.2
 daphne==2.5.0
 defusedxml==0.7.0rc1
-Django==2.2.7
+Django==2.2.13
 django-braces==1.14.0
 django-cors-headers==3.4.0
 django-filter==2.3.0
