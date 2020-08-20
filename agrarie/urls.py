@@ -18,7 +18,7 @@ urlpatterns = i18n_patterns(
                   path('jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),
                   path('api/auth/', include('djoser.urls')),
                   path('api/', include('informations.urls')),
-                  path('api/', include('rooms.urls')),
+                  path('api/', include('communication.urls')),
                   path('auth/', include('rest_framework_social_oauth2.urls')),
                   # path('api-auth/', include('rest_framework.urls')),
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
