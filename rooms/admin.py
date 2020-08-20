@@ -8,7 +8,7 @@ admin.site.index_title = "Агро Консультирование"
 
 class ChatMessageInline(admin.TabularInline):
     model = ChatMessage
-    fields = ('thread', 'user', 'message', 'timestamp')
+    fields = ('thread', 'user', 'message', 'image', 'video', 'audio', 'timestamp')
     readonly_fields = ['timestamp']
 
     def get_extra(self, request, obj=None, **kwargs):

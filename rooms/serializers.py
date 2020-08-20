@@ -39,7 +39,11 @@ class ThreadGetUpdateSerializer(serializers.ModelSerializer):
 
 
 class MessageCreateSerializer(serializers.Serializer):
+    id = serializers.PrimaryKeyRelatedField(read_only=True)
     message = serializers.CharField()
+    audio = serializers.FileField()
+    image = serializers.ImageField()
+    video = serializers.FileField()
 
     def create(self, validated_data):
         return ChatMessage.objects.create(**validated_data)

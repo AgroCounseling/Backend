@@ -53,7 +53,10 @@ class Thread(models.Model):
 class ChatMessage(models.Model):
     thread = models.ForeignKey(Thread, null=True, blank=True, on_delete=models.SET_NULL, verbose_name='Комната', related_name='messages')
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='Пользователь')
-    message = models.TextField(verbose_name='Сообщение')
+    message = models.TextField(blank=True, null=True, verbose_name='Сообщение')
+    audio = models.FileField(upload_to='messages/audio-file/', blank=True, null=True, verbose_name='Аудио')
+    image = models.ImageField(upload_to='messages/image-file/', blank=True, null=True, verbose_name='Картинки')
+    video = models.FileField(upload_to='messages/video-file/', blank=True, null=True, verbose_name='Видео')
     timestamp = models.DateTimeField(auto_now_add=True, verbose_name='Дата')
     status = models.BooleanField(default=False, verbose_name='Статус')
 

@@ -35,7 +35,10 @@ class MessageViewSet(ModelViewSet):
             raise PermissionDenied
         user = self.request.user
         message = serializer.validated_data.get("message")
-        serializer.save(user=user, thread=thread, message=message)
+        audio = serializer.validated_data.get("audio")
+        image = serializer.validated_data.get("image")
+        video = serializer.validated_data.get("video")
+        serializer.save(user=user, thread=thread, message=message, audio=audio, image=image, video=video)
 
 
 class ThreadViewSet(ModelViewSet):
