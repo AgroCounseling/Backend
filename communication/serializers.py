@@ -24,6 +24,7 @@ class ThreadListSerializer(serializers.ModelSerializer):
     first = UsersListSerializer(many=False, read_only=True)
     second = UsersListSerializer(many=False, read_only=True)
     new_messages = serializers.IntegerField(source='unreaded', read_only=True)
+    # last_message = serializers.CharField()
 
     class Meta:
         model = Thread
