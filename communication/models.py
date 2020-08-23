@@ -44,10 +44,10 @@ class Thread(models.Model):
         return '{}'.format(self.first)
 
     def unreaded(self):
-        messages_count = ChatMessage.objects.filter(status=False).count()
-        self.messages_count = messages_count
+        new_messages = ChatMessage.objects.filter(status=False).count()
+        self.new_messages = new_messages
         self.save()
-        return self.messages_count
+        return self.new_messages
 
 
 class ChatMessage(models.Model):
