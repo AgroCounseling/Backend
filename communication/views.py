@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from .serializers import *
 from rest_framework.viewsets import ModelViewSet
 from rest_framework import status
@@ -48,13 +47,14 @@ class ThreadViewSet(ModelViewSet):
     def list(self, request, *args, **kwargs):
         queryset = Thread.objects.by_user(self.request.user)
         serializer = self.get_serializer(queryset, many=True)
+        serializer.data[0]['new_messages'] = ChatMessage.objects.filter(status=False).count()
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def retrieve(self, request, *args, **kwargs):
+        query = ChatMessage.objects.all()
+        query.update(status=True)
         instance = self.get_object()
         serializer = self.get_serializer(instance)
-        for item in range(len(serializer.data['messages'])):
-            serializer.data['messages'][item]['status'] = True
         return Response(serializer.data)
 
     def get_serializer_class(self):

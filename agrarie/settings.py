@@ -10,7 +10,7 @@ SECRET_KEY = config('SECRET_KEY')
 
 DEBUG = config('DEBUG')
 
-ALLOWED_HOSTS = ['134.122.76.224', '127.0.0.1']
+ALLOWED_HOSTS = ['134.122.76.224', '127.0.0.1', 'www.agronomy-online.kg', 'agronomy-online.kg']
 
 INSTALLED_APPS = [
     'modeltranslation',
@@ -161,11 +161,13 @@ USE_TZ = True
 
 AUTH_USER_MODEL = 'users.User'
 
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_URL = '/back_static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'back_static')
+
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+FILE_UPLOAD_MAX_MEMORY_SIZE = 200000000
 
 JET_SIDE_MENU_COMPACT = True
 

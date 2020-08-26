@@ -1,3 +1,5 @@
+from drf_writable_nested import NestedUpdateMixin
+
 from categories.serializers import CategoryConsultantListSerializer
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework import serializers
@@ -58,27 +60,13 @@ class ConsultantListSerializer(serializers.ModelSerializer):
         fields = ('id', 'user', 'specialty', 'title', 'description', 'middle_star')
 
 
-class ProfileConsultantSerializer(serializers.ModelSerializer):
+class ProfileConsultantSerializer(NestedUpdateMixin, serializers.ModelSerializer):
     user = UsersListSerializer(many=False)
     specialty = CategoryConsultantListSerializer(many=True)
 
     class Meta:
         model = Consultant
         fields = ('id', 'user', 'title', 'description', 'specialty')
-
-    def update(self, instance, validated_data):
-        user_data = validated_data.pop('user')
-        user = instance.user
-        instance.title = validated_data.get('title', instance.title)
-        instance.description = validated_data.get('description', instance.description)
-        instance.save()
-        user.email = user_data.get('email', user.email)
-        user.first_name = user_data.get('first_name', user.first_name)
-        user.last_name = user_data.get('last_name', user.last_name)
-        user.photo = user_data.get('photo', user.photo)
-        user.phone = user_data.get('phone', user.phone)
-        user.save()
-        return instance
 
 
 class ReviewsListSerializer(serializers.ModelSerializer):
@@ -190,3 +178,4 @@ class RegistrationConsultantSerializer(serializers.ModelSerializer):
             ImageConsultant.objects.create(consultant=consultant, **certificate_data)
         user.save()
         return consultant
+
