@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.db import models
 from django.db.models import Q
-
+from datetime import datetime, timedelta
 
 class ThreadManager(models.Manager):
     def by_user(self, user):
@@ -31,6 +31,7 @@ class Thread(models.Model):
     new_messages = models.IntegerField(blank=True, null=True, verbose_name='Непрочитанные сообщения')
     time = models.IntegerField(default=0, verbose_name='Время чата')
     access = models.BooleanField(default=False, verbose_name='Доступ')
+    times_rooms = models.DateTimeField(blank=True, null=True, verbose_name='Время окончания чата')
     timestamp = models.DateTimeField(auto_now_add=True, verbose_name='Дата')
 
     objects = ThreadManager()
@@ -41,6 +42,14 @@ class Thread(models.Model):
 
     def __str__(self):
         return '{}'.format(self.first)
+    
+    def save(self, force_insert=False, force_update=False, using=None,
+     update_fields=None):
+        self.times_rooms = datetime.now() + timedelta(minutes=self.time)
+        super(Thread, self).save(force_insert=False, force_update=False, using=None,
+             update_fields=None)
+        
+      
 
 
 class ChatMessage(models.Model):
@@ -51,6 +60,7 @@ class ChatMessage(models.Model):
     audio = models.FileField(upload_to='messages/audio-file/', blank=True, null=True, verbose_name='Аудио')
     image = models.ImageField(upload_to='messages/image-file/', blank=True, null=True, verbose_name='Картинки')
     video = models.FileField(upload_to='messages/video-file/', blank=True, null=True, verbose_name='Видео')
+    file = models.FileField(upload_to='messages/file/', blank=True, null=True, verbose_name='Файл')
     timestamp = models.DateTimeField(auto_now_add=True, verbose_name='Дата')
     status = models.BooleanField(default=False, verbose_name='Статус')
 

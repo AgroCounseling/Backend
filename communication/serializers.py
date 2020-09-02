@@ -6,7 +6,7 @@ from users.serializers import UsersListSerializer
 class ChatMessageSerializer(serializers.ModelSerializer):
     class Meta:
         model = ChatMessage
-        fields = ['id', 'thread', 'user', 'message', 'video', 'audio', 'image', 'timestamp', 'status']
+        fields = ['id', 'thread', 'user', 'message', 'video', 'audio', 'image', 'file', 'timestamp', 'status']
 
 
 class ThreadDetailSerializer(serializers.ModelSerializer):
@@ -27,8 +27,8 @@ class ThreadListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Thread
-        fields = ['id', 'first', 'second', 'time', 'access', 'timestamp', 'new_messages']
-        read_only_fields = ['first', 'second', 'time', 'timestamp', 'new_messages']
+        fields = ['id', 'first', 'second', 'time', 'access', 'times_rooms', 'timestamp', 'new_messages']
+        read_only_fields = ['first', 'second', 'time', 'times_rooms', 'timestamp', 'new_messages']
 
 
 class ThreadGetUpdateSerializer(serializers.ModelSerializer):
@@ -44,6 +44,7 @@ class MessageCreateSerializer(serializers.Serializer):
     audio = serializers.FileField(required=False)
     image = serializers.ImageField(required=False)
     video = serializers.FileField(required=False)
+    file = serializers.FileField(required=False)
 
     def create(self, validated_data):
         return ChatMessage.objects.create(**validated_data)

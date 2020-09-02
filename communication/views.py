@@ -37,7 +37,8 @@ class MessageViewSet(ModelViewSet):
         audio = serializer.validated_data.get("audio")
         image = serializer.validated_data.get("image")
         video = serializer.validated_data.get("video")
-        serializer.save(user=user, thread=thread, message=message, audio=audio, image=image, video=video)
+        file = serializer.validated_data.get("file")
+        serializer.save(user=user, thread=thread, message=message, audio=audio, image=image, video=video, file=file)
 
 
 class ThreadViewSet(ModelViewSet):
