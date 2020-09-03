@@ -36,7 +36,7 @@ class CategoryConsultantListSerializer(serializers.ModelSerializer):
     class Meta:
         model = CategoryConsultant
         fields = ('id', 'consultant', 'category',)
-        read_only_fields = ('consultant',)
+        read_only_fields = ('id', 'consultant',)
 
 
 class CategoryConsultantDetailSerializer(serializers.ModelSerializer):

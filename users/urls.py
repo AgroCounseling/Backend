@@ -13,6 +13,7 @@ urlpatterns = [
 
     path('profile/', UserViewSet.as_view({'get': 'list'})),
     path('profile/edit/<str:name>/', UserViewSet.as_view({'get': 'retrieve','put': 'update'})),
+    path('specialty/edit/<str:name>/', SpecialtyUpdateViewSet.as_view({'get': 'retrieve','put': 'update'})),
 
     path('consultants/', ConsultantListViewSet.as_view({'get': 'list'})),
     path('consultants/<int:pk>/', ConsultantListViewSet.as_view({'get': 'retrieve'})),

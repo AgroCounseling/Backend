@@ -10,6 +10,8 @@ from rest_framework.exceptions import PermissionDenied
 from agrarie.pagintions import CustomResultsSetPagination
 from rest_framework.permissions import IsAdminUser
 from .permissions import IsClient
+from categories.serializers import CategoryConsultantListSerializer
+from categories.models import CategoryConsultant
 
 
 class CustomTokenView(TokenObtainPairView):
@@ -27,22 +29,6 @@ class RegistrationConsultantViewSet(ModelViewSet):
     permission_classes = [AllowAny]
     queryset = Consultant.objects.all()
     serializer_class = RegistrationConsultantSerializer
-
-
-# class RatingViewSet(ModelViewSet):
-#     queryset = Rating.objects.all()
-#     # permission_classes = [IsClient | IsAdminUser]
-#     permission_classes = [AllowAny]
-#     pagination_class = CustomResultsSetPagination
-#
-#     def perform_create(self, serializer):
-#         serializer.save(user=self.request.user)
-#
-#     def get_serializer_class(self):
-#         if self.action == 'create':
-#             return RatingCreateSerializer
-#         else:
-#             return RatingListSerializer
 
 
 class ConsultantViewSet(ReadOnlyModelViewSet):
@@ -130,3 +116,22 @@ class UserViewSet(ModelViewSet):
                 return UsersListSerializer
         except:
             raise PermissionDenied
+
+
+class SpecialtyUpdateViewSet(ModelViewSet):
+
+    def get_object(self):
+        name = self.kwargs['name']
+        pk = self.request.user.pk
+        if self.request.user.is_consultant:
+            obj = get_object_or_404(Consultant, user__first_name=name, user__id=pk)
+        return obj
+
+    def get_serializer_class(self):
+        try:
+            if self.request.user.is_consultant:
+                return ProfileConsultantSpecialtyUpdateSerializer
+        except:
+            raise PermissionDenied
+
+
