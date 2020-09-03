@@ -17,6 +17,7 @@ class Forum(models.Model):
     class Meta:
         verbose_name = _('Вопрос')
         verbose_name_plural = _('Вопросы')
+        ordering = ['-pub_date']
 
     def __str__(self):
         return self.title
