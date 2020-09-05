@@ -42,15 +42,12 @@ class Thread(models.Model):
 
     def __str__(self):
         return '{}'.format(self.first)
-    
+
     def save(self, force_insert=False, force_update=False, using=None,
      update_fields=None):
         self.times_rooms = datetime.now() + timedelta(minutes=self.time)
-        super(Thread, self).save(force_insert=False, force_update=False, using=None,
+        return super(Thread, self).save(force_insert=False, force_update=False, using=None,
              update_fields=None)
-        
-      
-
 
 class ChatMessage(models.Model):
     thread = models.ForeignKey(Thread, null=True, blank=True, on_delete=models.SET_NULL, verbose_name='Комната',

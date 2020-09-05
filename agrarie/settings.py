@@ -8,7 +8,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SECRET_KEY = config('SECRET_KEY')
 
-DEBUG = config('DEBUG')
+DEBUG = False
 
 ALLOWED_HOSTS = ['134.122.76.224', '127.0.0.1', 'www.agronomy-online.kg', 'agronomy-online.kg']
 

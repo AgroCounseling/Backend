@@ -48,7 +48,7 @@ class UserAdmin(UserAdmin):
         'email', 'first_name', 'last_name', 'phone', 'is_active', 'is_client', 'is_consultant', 'is_superuser')
     fieldsets = (
         (None, {'fields': (
-            'email', 'first_name', 'last_name', 'phone', 'is_active', 'is_client', 'is_consultant',
+            'email', 'first_name', 'last_name', 'phone', 'photo', 'is_active', 'is_client', 'is_consultant',
             'date_joined')}),
     )
     ordering = ('email',)
@@ -60,7 +60,7 @@ class UserAdmin(UserAdmin):
         (None, {
             'classes': ('wide',),
             'fields': (
-                'email', 'first_name', 'last_name', 'password1', 'password2', 'phone', 'is_active',
+                'email', 'first_name', 'last_name', 'password1', 'password2', 'phone', 'photo', 'is_active',
                 'is_client', 'is_consultant',
             )}
          ),
