@@ -3,6 +3,7 @@ from django.db import models
 from django.db.models import Q
 from datetime import datetime, timedelta
 
+
 class ThreadManager(models.Manager):
     def by_user(self, user):
         qlookup = Q(first=user) | Q(second=user)
@@ -44,10 +45,11 @@ class Thread(models.Model):
         return '{}'.format(self.first)
 
     def save(self, force_insert=False, force_update=False, using=None,
-     update_fields=None):
+             update_fields=None):
         self.times_rooms = datetime.now() + timedelta(minutes=self.time)
         return super(Thread, self).save(force_insert=False, force_update=False, using=None,
-             update_fields=None)
+                                        update_fields=None)
+
 
 class ChatMessage(models.Model):
     thread = models.ForeignKey(Thread, null=True, blank=True, on_delete=models.SET_NULL, verbose_name='Комната',
@@ -68,4 +70,3 @@ class ChatMessage(models.Model):
 
     def __str__(self):
         return '{}'.format(self.user)
-
