@@ -16,8 +16,8 @@ class ThreadDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Thread
-        fields = ['id', 'first', 'second', 'time', 'access', 'times_rooms', 'timestamp', 'messages']
-        read_only_fields = ['first', 'second', 'time', 'times_rooms', 'timestamp', 'messages']
+        fields = ['id', 'first', 'second', 'time', 'access', 'timestamp', 'messages']
+        read_only_fields = ['first', 'second', 'time', 'timestamp', 'messages']
 
 
 class ThreadListSerializer(serializers.ModelSerializer):
@@ -27,7 +27,7 @@ class ThreadListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Thread
-        fields = ['id', 'first', 'second', 'time', 'access', 'times_rooms', 'timestamp']
+        fields = ['id', 'first', 'second', 'time', 'access', 'https://agronomy-online.kg/admin/chat', 'timestamp']
         read_only_fields = ['first', 'second', 'time', 'times_rooms', 'timestamp']
 
 

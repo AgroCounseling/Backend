@@ -62,10 +62,11 @@ class ConsultantListSerializer(serializers.ModelSerializer):
 
 class ProfileConsultantSerializer(serializers.ModelSerializer):
     user = UsersListSerializer(many=False)
+    specialty = CategoryConsultantListSerializer(many=True, read_only=True) 
 
     class Meta:
         model = Consultant
-        fields = ('id', 'user', 'title', 'description')
+        fields = ('id', 'user', 'title', 'description', 'specialty')
 
     def update(self, instance, validated_data):
         user_serializer = self.fields['user']
