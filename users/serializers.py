@@ -90,15 +90,6 @@ class ReviewsListSerializer(serializers.ModelSerializer):
         fields = ('id', 'consultant', 'text', "star")
         read_only_fields = ('consultant',)
 
-    def create(self, validated_data):
-        review, _ = Reviews.objects.update_or_create(
-            consultant=validated_data.get('consultant', None),
-            defaults={
-                'text': validated_data.get('text'),
-                'star': validated_data.get('star')
-            }
-        )
-        return review
 
 
 class ReviewsDetailSerializer(serializers.ModelSerializer):
